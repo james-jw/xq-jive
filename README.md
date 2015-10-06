@@ -13,10 +13,10 @@ Namespace: module namespace jive = 'http://seu.jive.com';
       <tr><td>request-template</td><td>function jive:request-template($username as xs:string, $password as xs:string) as node()</td></tr>
       <tr><td>get-item</td><td>jive:get-item($request-template as node(), $uri as xs:string?) as item()?</td></tr>
       <tr><td>get-all-items</td><td>jive:get-all-items($request-template as node(), $baseURI as xs:string) as array(*)</td></tr>
-      <tr><td>delete-item</td><td>jive:delete-item($request-template as node(), $item as item())</td></tr>
-      <tr><td>update-tem</td><td>
-      jive:update-item($request-template as node(), $item as item())<br />
-      jive:update-item($request-template as node(), $item as item(), $minor as xs:boolean)
+      <tr><td>delete-item</td><td>jive:delete-item($request-template as node(), $item as item()) as item()</td></tr>
+      <tr><td>update-item</td><td>
+      jive:update-item($request-template as node(), $item as item()) as item()<br />
+      jive:update-item($request-template as node(), $item as item(), $minor as xs:boolean) as item()
       </td></tr>
       <tr><td>create-item</td><td>jive:create-item($request-template as node(), $urlIn as xs:string, $item as item()*) as item()*</td></tr>
   </tbody>
@@ -48,7 +48,7 @@ let $member := map {
 let $groups := jive:get-all-items($req, 'http://myService/api/core/v3/place?filter=tag(someTag)')
 return
   for $group in $groups?*
-  let $membership:= jive:create-item($req, $group?resources?self?ref, $member) 
+  let $membership:= jive:create-item($req, $group?resources?members?ref, $member) 
   return
     $membership
 </pre>
