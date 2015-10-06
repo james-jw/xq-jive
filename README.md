@@ -25,7 +25,7 @@ Namespace: module namespace jive = 'http://seu.jive.com';
 <h3>Examples</h3>
 
 <pre>
-import module namespace jive = 'http://seu.jive.com';
+import module namespace jive = 'http://seu.jive.com' at 'https://raw.githubusercontent.com/james-jw/jive/master/jive-util.xqm';
 
 let $req := jive:request-template('myUser', 'myPass') 
 let $people := jive:get-all-items($req, 'http://myService/api/core/v3/people') 
@@ -37,7 +37,7 @@ let $people := jive:get-all-items($req, 'http://myService/api/core/v3/people')
 </pre>
 
 <pre>
-import module namespace jive = 'http://seu.jive.com';
+import module namespace jive = 'http://seu.jive.com' at 'https://raw.githubusercontent.com/james-jw/jive/master/jive-util.xqm';
 
 let $req := jive:request-template('myUser', 'myPass') 
 let $member := map {
