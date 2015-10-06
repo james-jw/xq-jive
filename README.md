@@ -31,7 +31,7 @@ let $req := jive:request-template('myUser', 'myPass')
 let $people := jive:get-all-items($req, 'http://myService/api/core/v3/people') 
   return
     for $person in $people?*
-    where matches($person?emails?values, 'someDomain.com') 
+    where matches($person?emails?*?value, 'someDomain.com') 
     return
       jive:delete-item($req, $person)
 </pre>
