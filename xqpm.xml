@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- xqpm dependency file -->
+<config>
+  <dependencies>
+    <directory path="{{repo}}">
+      <dependency name="xq-jive" />
+      <dependency name="jive-install" type="command" path="{{base}}/bin/basex">
+        <argument>-c"repo install '{{repo}}/xq-jive/src/xq-jive.xqm'"</argument>
+      </dependency>
+    </directory>
+  </dependencies>
+</config>
+

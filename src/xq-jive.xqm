@@ -1,22 +1,11 @@
+(: Simple module for interacting with Jive's V3.x APIs 
+ : @author James Wright
+ : @date 10/15/2014
+ :)
 module namespace jive = 'http://seu.jive.com';
 
 declare function jive:request-template($username as xs:string, $password as xs:string) as node() {
   <http:request username="{$username}" password="{$password}" send-authorization="true" override-media-type="text/plain" method="get" />
-};
-
-declare function jive:to-map($input as node(), $unescape as xs:string*) as item() {
-  map:merge(
-    for $prop in $input/*/name() 
-    let $value :=
-     if($prop = $unescape) then jive:unescape($input/*[name() = $prop]/text())
-     else $input/*[name() = $prop]/text()
-    return
-      map { $prop: $value }
-  )
-};
-
-declare function jive:unescape($input as xs:string) as xs:string {
-  (fn:replace($input, '\&lt;', '<')) => fn:replace('\&gt;', '>')
 };
 
 declare function jive:prep($request-template as node(), $item as item(), $baseUri as xs:string) as item() {
@@ -66,7 +55,6 @@ declare function jive:get-item($request-template as node(), $uri as xs:string?) 
     let $response := http:send-request($request, $uri)[2]
     return
       jive:process-response($response)
-
   else ()
 };
 
@@ -116,11 +104,9 @@ declare function jive:create-item($request-template as node(), $urlIn as xs:stri
 
 declare function jive:invite-to-group($request-template as node(), $emailsIn as xs:string*, $groupIn as node()) as node() {
   let $invite := 
-    <json objects="json" arrays="invitees">
-      <body>Please come join the group</body>
-      <invitees>
-        {for $email in $emailsIn return <value>{$email}</value>}
-      </invitees>
-    </json>
+    map {
+      'body': 'Please come join the group.',
+      'invitees': array { $emailsIn ! . } 
+    }
   return jive:create-item($request-template, $groupIn/resources/invites/ref,  <http:body media-type="application/json">{json:serialize($invite)}</http:body>)
 };

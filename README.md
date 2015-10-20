@@ -2,9 +2,16 @@
 Jive management services and xquery utility modules for working with jives v3 APIs.
 
 # jive-util.xqm
+<code>
 Namespace: module namespace jive = 'http://seu.jive.com';
+</code>
 
-<h3>methods</h3>
+<h3>Installation</h3>
+Use xqpm (xquery package manager) to install this for you. Package: <code>xq-jive</code> 
+
+Otherwise, simply clone this repo to your local machine and reference the <code>xq-jive.xqm</code> module in your code.
+
+<h3>Methods</h3>
 <table>
   <thead>
     <tr><td>Name</td><td>Description</td></tr>
@@ -43,7 +50,7 @@ let $req := jive:request-template('myUser', 'myPass')
 let $member := map {
   'person': 'http://myService/api/core/v3/people/2',
   'state': 'member'
-  }
+}
   
 let $groups := jive:get-all-items($req, 'http://myService/api/core/v3/place?filter=tag(someTag)')
 return
