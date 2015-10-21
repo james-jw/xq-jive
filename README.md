@@ -1,37 +1,31 @@
 # jive
 Jive management services and xquery utility modules for working with jives v3 APIs.
 
-# jive-util.xqm
-<code>
-Namespace: module namespace jive = 'http://seu.jive.com';
-</code>
-
-<h3>Installation</h3>
-Use xqpm (xquery package manager) to install this for you. Package: <code>xq-jive</code> 
+### Installation
+Use [xqpm][0] to install this for you. 
+<code>basex xq-jive</code> 
 
 Otherwise, simply clone this repo to your local machine and reference the <code>xq-jive.xqm</code> module in your code.
 
-<h3>Methods</h3>
-<table>
-  <thead>
-    <tr><td>Name</td><td>Description</td></tr>
-  </thead>
-  <tbody>
-      <tr><td>request-template</td><td>function jive:request-template($username as xs:string, $password as xs:string) as node()</td></tr>
-      <tr><td>get-item</td><td>jive:get-item($request-template as node(), $uri as xs:string?) as item()?</td></tr>
-      <tr><td>get-all-items</td><td>jive:get-all-items($request-template as node(), $baseURI as xs:string) as array(*)</td></tr>
-      <tr><td>delete-item</td><td>jive:delete-item($request-template as node(), $item as item()) as item()</td></tr>
-      <tr><td>update-item</td><td>
-      jive:update-item($request-template as node(), $item as item()) as item()<br />
-      jive:update-item($request-template as node(), $item as item(), $minor as xs:boolean) as item()
-      </td></tr>
-      <tr><td>create-item</td><td>jive:create-item($request-template as node(), $urlIn as xs:string, $item as item()*) as item()*</td></tr>
-  </tbody>
-</table>
+### Methods
+Every methods first paramter is request template. Call the following function to create one passing in your Jive username and password.
+``jive:request-template($username as xs:string, $password as xs:string) as node()``
 
-<h3>Examples</h3>
+To retrieve a single item call:
+``jive:get-item($request-template as node(), $uri as xs:string?) as item()?``
 
-<pre>
+If a list of items is required, use <code>get-all-items</code> to recieve an array of results. Note that the method will return all results, not just the first pages worth.
+``jive:get-all-items($request-template as node(), $baseURI as xs:string) as array(*)``
+
+The following methods are rather self explanatory. 
+``jive:update-item($request-template as node(), $item as item()) as item()``
+``jive:update-item($request-template as node(), $item as item(), $minor as xs:boolean) as item()``
+``jive:create-item($request-template as node(), $urlIn as xs:string, $item as item()*) as item()``
+``jive:delete-item($request-template as node(), $item as item()) as item()``
+
+### Examples
+
+```xquery
 import module namespace jive = 'http://seu.jive.com' at 'https://raw.githubusercontent.com/james-jw/jive/master/jive-util.xqm';
 
 let $req := jive:request-template('myUser', 'myPass') 
@@ -41,9 +35,9 @@ let $people := jive:get-all-items($req, 'http://myService/api/core/v3/people')
     where matches($person?emails?*?value, 'someDomain.com') 
     return
       jive:delete-item($req, $person)
-</pre>
+```
 
-<pre>
+```xquery
 import module namespace jive = 'http://seu.jive.com' at 'https://raw.githubusercontent.com/james-jw/jive/master/jive-util.xqm';
 
 let $req := jive:request-template('myUser', 'myPass') 
@@ -58,4 +52,6 @@ return
   let $membership:= jive:create-item($req, $group?resources?members?ref, $member) 
   return
     $membership
-</pre>
+```
+
+[http://www.github.com/james-jw/xqpm][0]
