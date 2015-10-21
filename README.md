@@ -19,7 +19,10 @@ If a list of items is required, use <code>get-all-items</code> to recieve an arr
 
 The following methods are rather self explanatory. 
 ``jive:update-item($request-template as node(), $item as item()) as item()``
+
+For minor updates, includes <code>true()</code> for the <code>$minor</code> argument.
 ``jive:update-item($request-template as node(), $item as item(), $minor as xs:boolean) as item()``
+
 ``jive:create-item($request-template as node(), $urlIn as xs:string, $item as item()*) as item()``
 ``jive:delete-item($request-template as node(), $item as item()) as item()``
 
