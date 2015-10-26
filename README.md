@@ -3,6 +3,12 @@ Jive management services and xquery utility modules for working with jives v3 AP
 
  * [Installation](#installation)
  * [Methods](#methods)
+   * [request-template](#request-template)
+   * [get-item](#get-item)
+   * [get-all-items](#get-all-items)
+   * [update-item](#update-item)
+   * [create-item](#create-item)
+   * [delete-item](#delete-item)
  * [Examples](#examples)
    * [Delete users by email domain](#delete-users-by-email-domain)
    * [Push user to group](#push-user-to-group)
@@ -15,21 +21,26 @@ Use [xqpm][0] to install this for you.
 Otherwise, simply clone this repo to your local machine and reference the <code>xq-jive.xqm</code> module in your code.
 
 ## Methods
+
+### request-template
 Call the following function to create a request template used by the other methods. Simply pass in your Jive username and password.
 ```xquery
 jive:request-template($username as xs:string, $password as xs:string) as node()
 ```
 
+### get-item
 Then, to retrieve a single item call:
 ```xquery
 jive:get-item($request-template as node(), $uri as xs:string?) as item()?
 ```
 
+### get-all-items
 If requesting a pageable list of items, use <code>get-all-items</code> to recieve the full list as an array of results. Note that this method will return all results, not just the first page worth.
 ```xquery
 jive:get-all-items($request-template as node(), $baseURI as xs:string) as array(*)
 ```
 
+### update-item
 The following methods are rather self explanatory. 
 ```xquery
 jive:update-item($request-template as node(), $item as item()) as item()
@@ -40,9 +51,12 @@ For minor updates, includes <code>true()</code> for the <code>$minor</code> argu
 jive:update-item($request-template as node(), $item as item(), $minor as xs:boolean) as item()
 ```
 
+### create-item
 ```xquery
 jive:create-item($request-template as node(), $urlIn as xs:string, $item as item()*) as item()
 ```
+
+### delete-item
 ```xquery
 jive:delete-item($request-template as node(), $item as item()) as item()
 ```
